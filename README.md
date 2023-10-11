@@ -11,3 +11,11 @@ It is recommended to use a python virtual environment:
 - `pip install django`
 - `pip install djangorestframework`
 
+## Make database migration
+- This creates the tables defined on models.py:
+  - `python manage.py makemigrations`
+  - `python manage.py migrate`
+
+## Running the API on development mode
+- Run `python manage.py runserver`
+
