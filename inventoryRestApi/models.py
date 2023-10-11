@@ -25,7 +25,7 @@ class InventoryProduct(models.Model):
     sellingPrice = models.DecimalField(decimal_places=2, max_digits=20)
     unitsAvailable = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    brandId = models.ForeignKey(Brand, on_delete=models.PROTECT)
+    brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
 
 class User(models.Model):
     DOCUMENT_TYPES = [
