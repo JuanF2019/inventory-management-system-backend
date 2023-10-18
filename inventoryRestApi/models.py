@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group, PermissionsMixin, AbstractUser
 
 # Create your models here.
 
@@ -7,14 +8,6 @@ class Category(models.Model):
 
 class Brand(models.Model):
     name = models.CharField(max_length=100)
-
-class Permission(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-
-class Role(models.Model):
-    name = models.CharField(max_length=100)
-    permissions = models.ManyToManyField(Permission)
 
 class InventoryProduct(models.Model):
     code = models.CharField(max_length=50, primary_key=True)
@@ -27,7 +20,30 @@ class InventoryProduct(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
 
-class User(models.Model):
+class UserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def create_user(self,email,password=None,**extra_fields):
+        if not email:
+            raise ValueError('Email is required')
+        user = self.model(email=self.normalize_email(email),**extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+    
+    def create_superuser(self,email,password,**extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff = True')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser = True')
+
+        return self.create_user(email, password, **extra_fields)
+
+class User(AbstractUser,PermissionsMixin):
+    username = None
     DOCUMENT_TYPES = [
         ('CC','CC'),
         ('TI','TI'),  
@@ -38,14 +54,26 @@ class User(models.Model):
         ('NIP','NIP'),
         ('NES','NES'),
     ]
-    name = models.CharField(max_length=200)
-    surname = models.CharField(max_length=200)
-    document = models.CharField(max_length=10)
-    docType = models.CharField(max_length=4, choices=DOCUMENT_TYPES)
-    email = models.CharField(max_length=100)
-    phoneNumber = models.CharField(max_length=15)
-    birthday = models.DateField()
-    role = models.ForeignKey(Role, on_delete=models.PROTECT)
+    #first and last name are inherited from abstrac user
+    document = models.CharField(max_length=10,null=True)
+    docType = models.CharField(max_length=4, choices=DOCUMENT_TYPES,null=True)
+    email = models.EmailField(max_length=100, unique=True)
+    phoneNumber = models.CharField(max_length=15,null=True)
+    birthday = models.DateField(null=True)
+    
+    #This is just for following the guide on authentication
+    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name','last_name']
+
+    def __str__(self):
+        return self.first_name
 
 class InventoryMovement(models.Model):
     MOV_TYPES = [

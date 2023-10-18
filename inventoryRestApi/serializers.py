@@ -14,21 +14,6 @@ class BrandSerializer(serializers.ModelSerializer):
         fields = ('id','name')
         read_only_fields = ()
 
-
-class PermissionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Permission
-        fields = ('id','name','description')
-        read_only_fields = ()
-
-
-class RoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Role
-        fields = ('id','name','permissions')
-        read_only_fields = ()
-
-
 class InventoryProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = InventoryProduct
@@ -39,7 +24,7 @@ class InventoryProductSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id','name','surname','document','docType','email','phoneNumber','birthday','role')
+        fields = ('id','first_name','last_name','document','docType','email','phoneNumber','birthday')
         read_only_fields = ()
 
 
