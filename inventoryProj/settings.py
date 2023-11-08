@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'inventoryRestApi',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
 ]
 
@@ -75,8 +76,8 @@ SIMPLE_JWT = {
     "ALGORITHM": "HS256",
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "USER_ID_FIELD": "id",
-    "USER_ID_CLAIM": "user_id",
+    "USER_ID_FIELD": "document",
+    "USER_ID_CLAIM": "document",
 }
 
 AUTH_USER_MODEL = 'inventoryRestApi.User'

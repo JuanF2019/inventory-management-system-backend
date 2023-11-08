@@ -5,14 +5,13 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('id','name')
-        read_only_fields = ()
-
+        read_only_fields = ('id')
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = ('id','name')
-        read_only_fields = ()
+        read_only_fields = ('id')
 
 class InventoryProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,13 +19,11 @@ class InventoryProductSerializer(serializers.ModelSerializer):
         fields = ('code','name','description','dimensions','cost','sellingPrice','unitsAvailable','category','brand')
         read_only_fields = ()
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id','first_name','last_name','document','docType','email','phoneNumber','birthday')
+        fields = ('first_name','last_name','document','doc_type','email','phone_number','birthday')
         read_only_fields = ()
-
 
 class InventoryMovementSerializer(serializers.ModelSerializer):
     class Meta:

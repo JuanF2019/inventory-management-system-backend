@@ -19,12 +19,16 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
+    TokenVerifyView,
+    TokenBlacklistView,
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('inventoryRestApi.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api-auth/',include('rest_framework.urls',namespace='rest_framework'))
+    path('api/',include('inventoryRestApi.urls')),
+    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/login/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('api/logout/',TokenBlacklistView.as_view(),name='token_black_list'),
+    #path('api-auth/',include('rest_framework.urls',namespace='rest_framework'))
 ]

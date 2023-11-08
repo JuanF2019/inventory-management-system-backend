@@ -43,7 +43,6 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractUser,PermissionsMixin):
-    username = None
     DOCUMENT_TYPES = [
         ('CC','CC'),
         ('TI','TI'),  
@@ -53,27 +52,29 @@ class User(AbstractUser,PermissionsMixin):
         ('PS','PS'),       
         ('NIP','NIP'),
         ('NES','NES'),
-    ]
-    #first and last name are inherited from abstrac user
-    document = models.CharField(max_length=10,null=True)
-    docType = models.CharField(max_length=4, choices=DOCUMENT_TYPES,null=True)
+    ]   
+
+    #first and last name are inherited from abstract user
+    username = None
+    USERNAME_FIELD = 'email'
     email = models.EmailField(max_length=100, unique=True)
-    phoneNumber = models.CharField(max_length=15,null=True)
+
+    document = models.CharField(max_length=10,primary_key=True)
+    doc_type = models.CharField(max_length=4, choices=DOCUMENT_TYPES,null=True)    
+    phone_number = models.CharField(max_length=15,null=True)
     birthday = models.DateField(null=True)
     
-    #This is just for following the guide on authentication
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
-    objects = UserManager()
+    REQUIRED_FIELDS = ['first_name','document','doc_type']
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name','last_name']
+    objects = UserManager()  
 
     def __str__(self):
-        return self.first_name
+        return f"{self.first_name}, {self.last_name}"
 
 class InventoryMovement(models.Model):
     MOV_TYPES = [

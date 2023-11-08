@@ -10,6 +10,7 @@ It is recommended to use a python virtual environment:
 ## Install required packages
 - `pip install django`
 - `pip install djangorestframework`
+- `pip install djangorestframework-simplejwt`
 
 ## Make database migration
 - This creates the tables defined on models.py:
@@ -21,18 +22,18 @@ It is recommended to use a python virtual environment:
 
 ## TODO
 
-Tener dos grupos: admin y warehouse_keeper
+(  ) Que se pueda registrar usuarios (con contraseña) desde un endpoint: https://python.plainenglish.io/django-custom-user-model-and-auth-using-jwt-simple-boilerplate-6acd78bf7767)
 
-(OK) Que el que no se encuentre autenticado no pueda hacer nada
+(  ) Que se pueda modificar usuarios (con y sin contraseña) desde un endpoint: https://python.plainenglish.io/django-custom-user-model-and-auth-using-jwt-simple-boilerplate-6acd78bf7767). Asumimos que unicamente el warehouse_admin puede modificar los datos de los warehouse_users
 
-(??) Que los usuario que pertenezcan al grupo admin puedan leer y modificar todo (si se crea superuser se puede hacer esto pero no hay grupo admin creado)
+(  ) Que retorne lo que se necesita para las graficas unicamente al admin (USAR los permisos de django_rest_framework y crear los permisos custom para esto) 
 
-Que los warehouse_keeper puedan:
-ver y agregar pero no modificar ni borrar marcas, categorias, productos, y moviemientos y no tocar usuarios
+(  ) Arreglar permisos que no funcionan (keeper puede hacer get de users)
 
-(??) Que se pueda registrar usuarios (por ahora solo se puede crear usuarios admin con python manage.py createsuperuser, revisar este tutorial para ver lo del registro: https://www.youtube.com/watch?v=AfYfvjP1hK8&t=1579s)
+(  ) Definir unos endpoints que permitan obtener los datos para las graficas. Definir que deben retornar.
 
-(OK) Que se pueda hacer login (usa simpleJWT)
+(  ) Crear desde codigo los grupo con los permisos que corresponden
+### Notes
 
-Que retorne lo que se necesita para las graficas unicamente al admin (habría que pensar como darle permiso de hacer queries (se exponen endpoinst para esto: https://docs.djangoproject.com/en/4.2/topics/db/queries/)
-
+- In unix make a cron job to flush blacklisted tokens using `python manage.py flushexpiredtokens` https://osirusdjodji.medium.com/cron-job-in-django-with-django-crontab-c02bff68a96d
+- Groups for warehouse-keeper and warehouse-admin are created manually using django admin UI.
