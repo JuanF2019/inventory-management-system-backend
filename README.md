@@ -28,8 +28,6 @@ It is recommended to use a python virtual environment:
 
 (  ) Que retorne lo que se necesita para las graficas unicamente al admin (USAR los permisos de django_rest_framework y crear los permisos custom para esto) 
 
-(  ) Arreglar permisos que no funcionan (keeper puede hacer get de users)
-
 (  ) Definir unos endpoints que permitan obtener los datos para las graficas. Definir que deben retornar.
 
 (  ) Crear desde codigo los grupo con los permisos que corresponden
