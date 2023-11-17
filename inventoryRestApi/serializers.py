@@ -29,4 +29,4 @@ class InventoryMovementSerializer(serializers.ModelSerializer):
     class Meta:
         model = InventoryMovement
         fields = ('id', 'product','user','date','description','units','movType')
-        read_only_fields = ()
+        read_only_fields = ('id','date')

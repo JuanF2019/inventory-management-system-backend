@@ -8,6 +8,6 @@ router.register('categories',CategoryViewSet,'categories')
 router.register('brands',BrandViewSet,'brands')
 router.register('products',InventoryProductViewSet,'products')
 router.register('users',UserViewSet,'users')
-router.register('inventory-movements',InventoryMovementViewSet,'inventory-movements')
   
-urlpatterns = router.urls
+urlpatterns = router.urls + [path('inventory-movements/',inventory_movement_create_list, name = "inventory-movement-create-list"),
+                             path('inventory-movements/<int:id>', inventory_movement_update_detail_delete, name = "inventory-movement-update-detail-delete")]
