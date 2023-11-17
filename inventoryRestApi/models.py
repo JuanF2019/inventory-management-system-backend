@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group, PermissionsMixin, AbstractUser
+from datetime import datetime
 
 # Create your models here.
 
@@ -83,7 +84,7 @@ class InventoryMovement(models.Model):
     ]
     product = models.ForeignKey(InventoryProduct, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()
     description = models.TextField()
     units = models.PositiveIntegerField()
     movType = models.CharField(max_length = 20, choices=MOV_TYPES)
