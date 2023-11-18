@@ -1,14 +1,11 @@
-# Create your views here.
-
+from rest_framework import viewsets, permissions, status, serializers, mixins
+from rest_framework.response import Response
+from rest_framework.permissions import DjangoModelPermissions
+from rest_framework.decorators import api_view, permission_classes
+from django.core.exceptions import ObjectDoesNotExist
+from .permissions import CustomDjangoModelPermissions
 from .models import *
 from .serializers import *
-from rest_framework import viewsets, permissions, status
-from rest_framework.response import Response
-from rest_framework import serializers
-from rest_framework.permissions import DjangoModelPermissions
-from .permissions import CustomDjangoModelPermissions
-from rest_framework.decorators import api_view, permission_classes
-from django.core.exceptions import ObjectDoesNotExist 
 from .services import *
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -21,7 +18,13 @@ class BrandViewSet(viewsets.ModelViewSet):
     permission_classes = [CustomDjangoModelPermissions]
     serializer_class = BrandSerializer
 
-class InventoryProductViewSet(viewsets.ModelViewSet):
+
+class InventoryProductViewSet(
+                    mixins.CreateModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
     queryset = InventoryProduct.objects.all()
     permission_classes = [CustomDjangoModelPermissions]
     serializer_class = InventoryProductSerializer
