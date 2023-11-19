@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group, PermissionsMixin, AbstractUser
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.base_user import BaseUserManager
 from datetime import datetime
 
 # Create your models here.
@@ -21,17 +22,33 @@ class InventoryProduct(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
 
-class UserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
     use_in_migrations = True
 
-    def create_user(self,email,password=None,**extra_fields):
+    def create_user(self,email,password,document,doc_type,first_name,last_name,**extra_fields):
         if not email:
             raise ValueError('Email is required')
+        if not password:
+            raise ValueError('Email is required')
+        if not document:
+            raise ValueError('Document is required')
+        if not doc_type:
+            raise ValueError('Doc_type is required')
+        if not first_name:
+            raise ValueError('first_name is required')
+        if not doc_type:
+            raise ValueError('last_name is required')
+
         user = self.model(email=self.normalize_email(email),**extra_fields)
         user.set_password(password)
-        user.save(using=self._db)
+        user.document = document
+        user.doc_type = doc_type
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+        return user
     
-    def create_superuser(self,email,password,**extra_fields):
+    def create_superuser(self,email,password,document,doc_type,first_name,last_name,**extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
@@ -41,9 +58,9 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser = True')
 
-        return self.create_user(email, password, **extra_fields)
+        return self.create_user(email, password, document, doc_type, first_name,last_name, **extra_fields)
 
-class User(AbstractUser,PermissionsMixin):
+class User(AbstractUser):
     DOCUMENT_TYPES = [
         ('CC','CC'),
         ('TI','TI'),  
@@ -61,7 +78,7 @@ class User(AbstractUser,PermissionsMixin):
     email = models.EmailField(max_length=100, unique=True)
 
     document = models.CharField(max_length=10,primary_key=True)
-    doc_type = models.CharField(max_length=4, choices=DOCUMENT_TYPES,null=True)    
+    doc_type = models.CharField(max_length=4, choices=DOCUMENT_TYPES)    
     phone_number = models.CharField(max_length=15,null=True)
     birthday = models.DateField(null=True)
     
@@ -70,9 +87,12 @@ class User(AbstractUser,PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
+    first_name = models.CharField(("first name"), max_length=150)
+    last_name = last_name = models.CharField(("last name"), max_length=150)
+
     REQUIRED_FIELDS = ['first_name','document','doc_type']
 
-    objects = UserManager()  
+    objects = CustomUserManager()  
 
     def __str__(self):
         return f"{self.first_name}, {self.last_name}"

@@ -1,8 +1,9 @@
 from rest_framework import status
 from rest_framework.response import Response
-from .models import InventoryMovement, InventoryProduct
+from django.contrib.auth.models import Group
+from .models import InventoryMovement, InventoryProduct, User
 from .exceptions import NotEnoughProductUnits
-from .serializers import InventoryMovementSerializer
+from .serializers import InventoryMovementSerializer, UserSerializer
 
 def undo_inv_movement(inv_movement, product, commit = False):
     units = inv_movement.units
@@ -87,3 +88,24 @@ def inv_mov_create(serializer:InventoryMovementSerializer):
 
 def inv_mov_list():
     return InventoryMovement.objects.all()
+
+def user_groups_list_service(document):
+    user = User.objects.get(document=document)
+    return user.groups.all()
+
+def user_groups_add(document,group_id):
+    user = User.objects.get(document=document)
+    group = Group.objects.get(id=group_id)
+    user.groups.add(group)
+
+    return user.groups.all()  
+
+def user_groups_delete_service(document, group_id):
+    user = User.objects.get(document=document)
+    group = Group.objects.get(id=group_id)
+    user.groups.remove(group)
+
+    return user.groups.all()   
+
+def groups_list_service():
+    return Group.objects.all()
