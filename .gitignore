@@ -15,6 +15,7 @@ media
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
+.idea/**
 .idea/**/shelf
 
 # AWS User-specific
