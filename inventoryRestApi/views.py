@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from .permissions import *
 from .serializers import *
 from .services import *
+import datetime
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -162,3 +163,52 @@ def graph_num_product_per_cat(request):
 
     except Exception as e:
         return Response(data={"detail": f"{e.__str__()}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([InventoryMovementPermissions])
+def graph_movements_per_month(request):
+    try:
+        if request.method == 'GET':
+            date_from, date_to = process_raw_date(
+                request.query_params["date_from"],
+                request.query_params["date_to"])
+
+            data = graph_movements_per_month_service(date_from, date_to)
+
+            return Response(data=data, status=status.HTTP_200_OK)
+
+        return Response(data={"detail": f"Method {request.method} is not allowed"},
+                        status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    except Exception as e:
+        return Response(data={"detail": f"{e.__str__()}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([InventoryProductPermissions, InventoryProductPermissions])
+def graph_value_per_month(request):
+    try:
+        if request.method == 'GET':
+            date_from, date_to = process_raw_date(
+                request.query_params["date_from"],
+                request.query_params["date_to"])
+
+            data = graph_value_per_month_service(date_from, date_to)
+
+            return Response(data=data, status=status.HTTP_200_OK)
+
+        return Response(data={"detail": f"Method {request.method} is not allowed"},
+                        status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    except Exception as e:
+        return Response(data={"detail": f"{e.__str__()}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def process_raw_date(date_from_raw, date_to_raw):
+    date_format = '%d-%m-%Y'
+
+    date_from = dt.strptime(date_from_raw, date_format).date()
+    date_to = dt.strptime(date_to_raw, date_format).date()
+
+    return date_from, date_to

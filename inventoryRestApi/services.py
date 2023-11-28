@@ -1,3 +1,7 @@
+import calendar
+import datetime
+from datetime import datetime as dt
+
 from rest_framework import status
 from rest_framework.response import Response
 from django.contrib.auth.models import Group
@@ -147,3 +151,53 @@ def graph_num_product_per_cat_service():
         data["data"].append({"category": i, "units": units, "percentage": percentage})
 
     return data
+
+
+def graph_movements_per_month_service(date_from: datetime.date, date_to: datetime.date):
+    data = []
+    month_date_points = define_month_start_end_points(date_from, date_to)
+
+    for i in range(len(month_date_points)):
+        month = month_date_points[i]
+        inv_movs = InventoryMovement.objects.filter(date__gte=month[0], date__lt=month[1])
+
+        units_moved = 0
+        units_in = 0
+        units_out = 0
+
+        for inv_mov in inv_movs:
+            units = inv_mov.units
+            units_moved += units
+            if inv_mov.movType == InventoryMovement.MOV_TYPES[0][0]:
+                units_in += units
+            else:
+                units_out += units
+
+        data.append({"year": month[0].year, "month": month[0].month, "units_moved": units_moved, "units_in": units_in,
+                     "units_out": units_out})
+
+    return data
+
+
+def graph_value_per_month_service(date_from: datetime.date, date_to: datetime.date):
+    return {}
+
+
+def define_month_start_end_points(date_from: datetime.date, date_to: datetime.date):
+    month_start_end_points = []
+    current_date = date_from
+
+    while current_date <= date_to:
+        year = current_date.year
+        month = current_date.month
+        month_start_date = datetime.date(year, month, current_date.day)
+        month_end_date = datetime.date(year, month, calendar.monthrange(year, month)[1])
+        month_start_end_points.append((month_start_date, month_end_date))
+        current_date = add_one_month(current_date)
+
+    return month_start_end_points
+
+
+def add_one_month(date: datetime.date):
+    days = calendar.monthrange(year=date.year, month=date.month)[1]
+    return date + datetime.timedelta(days=days)
