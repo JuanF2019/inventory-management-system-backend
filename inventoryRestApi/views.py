@@ -1,4 +1,5 @@
 from rest_framework import viewsets, mixins
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from django.core.exceptions import ObjectDoesNotExist
 from .permissions import *
@@ -143,5 +144,21 @@ def groups_list(request):
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         return Response(data={"detail": f"Method {request.method} is not allowed"},
                         status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    except Exception as e:
+        return Response(data={"detail": f"{e.__str__()}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([CategoryPermissions, InventoryProductPermissions])
+def graph_num_product_per_cat(request):
+    try:
+        if request.method == 'GET':
+            data = graph_num_product_per_cat_service()
+
+            return Response(data=data, status=status.HTTP_200_OK)
+
+        return Response(data={"detail": f"Method {request.method} is not allowed"},
+                        status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
     except Exception as e:
         return Response(data={"detail": f"{e.__str__()}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

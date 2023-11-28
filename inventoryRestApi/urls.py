@@ -15,4 +15,6 @@ urlpatterns = router.urls + [
          name="inventory-movement-update-detail-delete"),
     path('users/<str:user_document>/groups/', user_groups_list, name="user-groups-list-add"),
     path('users/<str:user_document>/groups/<int:group_id>/', user_groups_add_delete, name="user-groups-delete"),
-    path('groups/', groups_list, name="groups-list")]
+    path('groups/', groups_list, name="groups-list"),
+
+    path('graphs/num-products-per-category/', graph_num_product_per_cat, name="graph_product_per_cat")]

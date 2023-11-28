@@ -1,6 +1,6 @@
 from rest_framework.permissions import DjangoModelPermissions
 from django.contrib.auth.models import Group
-from .models import User, InventoryMovement, InventoryProduct
+from .models import User, InventoryMovement, InventoryProduct, Category
 
 
 class CustomDjangoModelPermissions(DjangoModelPermissions):
@@ -50,3 +50,8 @@ class InventoryMovementPermissions(CustomDjangoModelPermissions):
 class InventoryProductPermissions(CustomDjangoModelPermissions):
     def has_permission(self, request, view):
         return has_model_permissions(self, request, view, InventoryProduct)
+
+
+class CategoryPermissions(CustomDjangoModelPermissions):
+    def has_permission(self, request, view):
+        return has_model_permissions(self, request, view, Category)
