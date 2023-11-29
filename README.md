@@ -20,17 +20,6 @@ It is recommended to use a python virtual environment:
 ## Running the API on development mode
 - Run `python manage.py runserver`
 
-## TODO
-
-(  ) Que se pueda registrar usuarios (con contraseña) desde un endpoint: https://python.plainenglish.io/django-custom-user-model-and-auth-using-jwt-simple-boilerplate-6acd78bf7767)
-
-(  ) Que se pueda modificar usuarios (con y sin contraseña) desde un endpoint: https://python.plainenglish.io/django-custom-user-model-and-auth-using-jwt-simple-boilerplate-6acd78bf7767). Asumimos que unicamente el warehouse_admin puede modificar los datos de los warehouse_users
-
-(  ) Que retorne lo que se necesita para las graficas unicamente al admin (USAR los permisos de django_rest_framework y crear los permisos custom para esto) 
-
-(  ) Definir unos endpoints que permitan obtener los datos para las graficas. Definir que deben retornar.
-
-(  ) Crear desde codigo los grupo con los permisos que corresponden
 ### Notes
 
 - In unix make a cron job to flush blacklisted tokens using `python manage.py flushexpiredtokens` https://osirusdjodji.medium.com/cron-job-in-django-with-django-crontab-c02bff68a96d
