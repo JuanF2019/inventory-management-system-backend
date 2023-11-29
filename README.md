@@ -20,7 +20,11 @@ It is recommended to use a python virtual environment:
 ## Running the API on development mode
 - Run `python manage.py runserver`
 
+## Sample request
+- On folder `sample_requests/` there is a file that can be imported to postman. It contains several sample request used during development.
+
 ### Notes
 
 - In unix make a cron job to flush blacklisted tokens using `python manage.py flushexpiredtokens` https://osirusdjodji.medium.com/cron-job-in-django-with-django-crontab-c02bff68a96d
 - Groups for warehouse-keeper and warehouse-admin are created manually using django admin UI.
+- Contact me at `juan.martinez27@u.icesi.edu.co` if you have any trouble
