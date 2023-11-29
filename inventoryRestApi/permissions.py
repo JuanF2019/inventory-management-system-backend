@@ -33,7 +33,6 @@ def has_model_permissions(self, request, view, model_cls):
 
 class GroupPermissions(CustomDjangoModelPermissions):
     def has_permission(self, request, view):
-        print("Checked group permissions")
         return has_model_permissions(self, request, view, Group)
 
 

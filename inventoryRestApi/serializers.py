@@ -25,6 +25,15 @@ class InventoryProductSerializer(serializers.ModelSerializer):
             'code', 'name', 'description', 'dimensions', 'cost', 'sellingPrice', 'unitsAvailable', 'category', 'brand')
         read_only_fields = ('unitsAvailable',)
 
+    def to_representation(self, instance):
+        rep = super(InventoryProductSerializer, self).to_representation(instance)
+        rep['category'] = instance.category.name
+        rep['brand'] = instance.brand.name
+        rep['category_id'] = instance.category.id
+        rep['brand_id'] = instance.brand.id
+
+        return rep
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,11 +75,21 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
+
 class InventoryMovementSerializer(serializers.ModelSerializer):
     class Meta:
         model = InventoryMovement
         fields = ('id', 'product', 'user', 'date', 'description', 'units', 'movType')
         read_only_fields = ('id',)
+
+    def to_representation(self, instance):
+        rep = super(InventoryMovementSerializer, self).to_representation(instance)
+        rep['user'] = instance.user.__str__()
+        rep['product'] = instance.product.name
+        rep['user_id'] = instance.user.document
+        rep['product_id'] = instance.product.code
+
+        return rep
 
 
 class GroupSerializer(serializers.ModelSerializer):

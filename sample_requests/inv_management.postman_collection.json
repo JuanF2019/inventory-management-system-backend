@@ -1,0 +1,755 @@
+{
+	"info": {
+		"_postman_id": "9220adbd-6248-4aaf-bf0d-bd8c0694cb2c",
+		"name": "inv_management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23532439"
+	},
+	"item": [
+		{
+			"name": "inv-movements",
+			"item": [
+				{
+					"name": "get-inv-movements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/inventory-movements/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"inventory-movements",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-inv-movement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"product\": \"1\",\r\n        \"user\": \"0000000000\",\r\n        \"description\": \"Out 4 units\",\r\n        \"date\":\"2023-11-17\",\r\n        \"units\": 4,\r\n        \"movType\": \"Salida\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/inventory-movements/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"inventory-movements",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "detail-inv-mov",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/inventory-movements/37",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"inventory-movements",
+								"37"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-inv-mov",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product\": \"2\",\r\n    \"user\": \"0000000000\",\r\n    \"description\": \"Receive 4 units\",\r\n    \"date\":\"2023-11-17T13:48\",\r\n    \"units\": 4,\r\n    \"movType\": \"Entrada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/inventory-movements/41",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"inventory-movements",
+								"41"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-inv-mov",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/inventory-movements/37",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"inventory-movements",
+								"37"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "options-inv-mov",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/inventory-movements/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"inventory-movements",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "create-users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\":\"Juan\",\r\n    \"last_name\": \"Martinez\",\r\n    \"document\": \"9824567890\",\r\n    \"doc_type\": \"CC\",\r\n    \"email\": \"juan322.martine@uma.com\",\r\n    \"password\":\"mypassword\",\r\n    \"phone_number\":\"3164579895\",\r\n    \"birthday\":\"2000-11-1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/users/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patch-user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone_number\": \"31664646\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/users/9234567890/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"9234567890",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "options-users",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/users/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\":\"Juan\",\r\n    \"last_name\": \"Martinez\",\r\n    \"document\": \"9824567890\",\r\n    \"doc_type\": \"CC\",\r\n    \"email\": \"juan322.martine@uma.com\",\r\n    \"password\":\"mypassword\",\r\n    \"phone_number\":\"3164579895\",\r\n    \"birthday\":\"2000-11-1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/users/9824567890/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"9824567890",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "groups",
+			"item": [
+				{
+					"name": "get-groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/groups/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"groups",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-user-groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/users/0000000000/groups",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"0000000000",
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-user-group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/users/0000000000/groups/2/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"0000000000",
+								"groups",
+								"2",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add-user-group",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/users/0000000000/groups/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"0000000000",
+								"groups",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "graphs",
+			"item": [
+				{
+					"name": "num_prod_per_cat",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/graphs/num-products-per-category/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"graphs",
+								"num-products-per-category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "movements-per-month",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/graphs/movements-per-month/?date_from=1-11-2023&date_to=31-12-2023",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"graphs",
+								"movements-per-month",
+								""
+							],
+							"query": [
+								{
+									"key": "date_from",
+									"value": "1-11-2023"
+								},
+								{
+									"key": "date_to",
+									"value": "31-12-2023"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "value-per-month",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/graphs/value-per-month/?date_from=01-09-2023&date_to=28-11-2023",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"graphs",
+								"value-per-month",
+								""
+							],
+							"query": [
+								{
+									"key": "date_from",
+									"value": "01-09-2023"
+								},
+								{
+									"key": "date_to",
+									"value": "28-11-2023"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "create-product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"code\": \"2\",\r\n        \"name\": \"Product 2\",\r\n        \"description\": \"Product 2 description\",\r\n        \"dimensions\": \"1x2x3\",\r\n        \"cost\": \"15.00\",\r\n        \"sellingPrice\": \"20.00\",\r\n        \"category\": 1,\r\n        \"brand\": 1\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/products/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": [\r\n        \"This field is required.\"\r\n    ],\r\n    \"name\": [\r\n        \"This field is required.\"\r\n    ],\r\n    \"cost\": [\r\n        \"This field is required.\"\r\n    ],\r\n    \"sellingPrice\": [\r\n        \"This field is required.\"\r\n    ],\r\n    \"unitsAvailable\": [\r\n        \"This field is required.\"\r\n    ],\r\n    \"category\": [\r\n        \"This field is required.\"\r\n    ],\r\n    \"brand\": [\r\n        \"This field is required.\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/products/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/products/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"root2@uma.com\",\r\n    \"password\":\"root2?root2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "refresh",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAwNDA4ODQ4LCJpYXQiOjE3MDA0MDUyNDgsImp0aSI6ImVjZTdkYmMwODA5MDQ2YmQ5MDIwZTlkZTc0MTdjODA5IiwiZG9jdW1lbnQiOiIxMjM0NSJ9.81-e2Toa_0DhusuYx46m9kRj6cZUgr0waBVRIcDdIw0"
+		}
+	]
+}
