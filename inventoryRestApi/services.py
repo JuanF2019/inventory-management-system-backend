@@ -28,7 +28,7 @@ def inv_mov_update(id, serializer):
     updated_inv_mov_type = updated_inv_mov_data['movType']
     updated_inv_mov_product = updated_inv_mov_data['product']
 
-    if (undone_prev_prod.code == updated_inv_mov_product.code):
+    if undone_prev_prod.code == updated_inv_mov_product.code:
         if (
                 (
                         updated_inv_mov_type == 'Entrada' and undone_prev_prod.unitsAvailable + updated_inv_mov_units < 0)  # Entrada is checked because undo operation can lead to negative units
@@ -42,10 +42,10 @@ def inv_mov_update(id, serializer):
         undone_prev_prod.save()
 
     else:
-        if (undone_prev_prod.unitsAvailable < 0):
+        if undone_prev_prod.unitsAvailable < 0:
             raise NotEnoughProductUnits(
                 "Not enough units available on the currently referenced product to update inventory movement with new product")
-        if (updated_inv_mov_type == 'Salida' and updated_inv_mov_product.unitsAvailable - updated_inv_mov_units < 0):
+        if updated_inv_mov_type == 'Salida' and updated_inv_mov_product.unitsAvailable - updated_inv_mov_units < 0:
             raise NotEnoughProductUnits(
                 "Not enough units available on the new referenced product to update inventory movement")
 
@@ -70,7 +70,7 @@ def inv_mov_delete(id):
     prod = inv_mov.product
     undo_prod = undo_inv_movement(inv_mov, prod, commit=False)
 
-    if (undo_prod.unitsAvailable < 0):
+    if undo_prod.unitsAvailable < 0:
         raise NotEnoughProductUnits("Not enough units available on referenced product to delete inventory movement")
 
     undo_prod.save()
@@ -88,7 +88,7 @@ def inv_mov_create(serializer: InventoryMovementSerializer):
     related_prod = inv_mov_data['product']
     prod_units = related_prod.unitsAvailable
 
-    if (not mov_type == 'Entrada' and not (mov_type == 'Salida' and mov_units <= prod_units)):
+    if not mov_type == 'Entrada' and not (mov_type == 'Salida' and mov_units <= prod_units):
         raise NotEnoughProductUnits("Not enough units available on referenced product to create inventory movement")
 
     related_prod.unitsAvailable += mov_units if mov_type == 'Entrada' else -mov_units
@@ -157,9 +157,10 @@ def graph_movements_per_month_service(date_from: datetime.date, date_to: datetim
     data = []
     month_date_points = define_month_start_end_points(date_from, date_to)
 
-    for i in range(len(month_date_points)):
-        month = month_date_points[i]
-        inv_movs = InventoryMovement.objects.filter(date__gte=month[0], date__lt=month[1])
+    for month in month_date_points:
+        inv_movs = InventoryMovement.objects.filter(
+            date__gte=month[0],
+            date__lt=(month[1] + datetime.timedelta(days=1)))
 
         units_moved = 0
         units_in = 0
@@ -179,8 +180,75 @@ def graph_movements_per_month_service(date_from: datetime.date, date_to: datetim
     return data
 
 
+# revisar la fecha de creación del producto
 def graph_value_per_month_service(date_from: datetime.date, date_to: datetime.date):
-    return {}
+    data = []
+    month_date_points = define_month_start_end_points(date_from, date_to)
+
+    month = month_date_points[0]
+    undone_products = undo_product_movements_until_date(month[0])
+    undone_products = redo_inventory_movements_from_date_until_date(
+        undone_products, month[0], month[1] + datetime.timedelta(days=1))
+    data = append_total_month_value(data, undone_products, month[0])
+
+    if len(month_date_points) > 1:
+        for month in month_date_points[1:]:
+            undone_products = redo_inventory_movements_from_date_until_date(
+                undone_products, month[0], month[1] + datetime.timedelta(days=1))
+            data = append_total_month_value(data, undone_products, month[0])
+    return data
+
+
+def append_total_month_value(data, undone_products, month: datetime.date):
+    total_month_value = 0
+
+    for product in undone_products.values():
+        total_month_value += product.unitsAvailable * product.cost
+
+    data.append({"year": month.year, "month": month.month, "inv_value": total_month_value})
+
+    return data
+
+
+def undo_product_movements_until_date(date: datetime.date):
+    inv_movs = InventoryMovement.objects.filter(date__gte=date)
+    products = {}
+
+    for inv_mov in inv_movs:
+
+        prod = inv_mov.product
+
+        if prod.code in products:
+            prod = products[prod.code]
+        else:
+            products[prod.code] = prod
+
+        if inv_mov.movType == InventoryMovement.MOV_TYPES[0][0]:
+            prod.unitsAvailable -= inv_mov.units
+        else:
+            prod.unitsAvailable += inv_mov.units
+
+    return products
+
+
+def redo_inventory_movements_from_date_until_date(undone_products, from_date: datetime.date, date_to: datetime.date):
+    inv_movs = InventoryMovement.objects.filter(date__gte=from_date, date__lt=date_to)
+
+    for inv_mov in inv_movs:
+
+        prod_code = inv_mov.product.code
+
+        if prod_code not in undone_products.keys():
+            continue
+
+        prod = undone_products[prod_code]
+
+        if inv_mov.movType == InventoryMovement.MOV_TYPES[0][0]:
+            prod.unitsAvailable += inv_mov.units
+        else:
+            prod.unitsAvailable -= inv_movs.units
+
+    return undone_products
 
 
 def define_month_start_end_points(date_from: datetime.date, date_to: datetime.date):

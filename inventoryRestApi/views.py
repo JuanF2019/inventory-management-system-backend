@@ -20,6 +20,7 @@ class BrandViewSet(viewsets.ModelViewSet):
     serializer_class = BrandSerializer
 
 
+# Does not block units modification, but it should
 class InventoryProductViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
                               mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = InventoryProduct.objects.all()
@@ -193,6 +194,13 @@ def graph_value_per_month(request):
             date_from, date_to = process_raw_date(
                 request.query_params["date_from"],
                 request.query_params["date_to"])
+
+            if date_from > date_to:
+                return Response(data={"detail": "date_from must be before date_to"},
+                                status=status.HTTP_400_BAD_REQUEST)
+            if date_to > datetime.datetime.now().date():
+                return Response(data={"detail": "date_to must be in the past, today or less"},
+                                status=status.HTTP_400_BAD_REQUEST)
 
             data = graph_value_per_month_service(date_from, date_to)
 

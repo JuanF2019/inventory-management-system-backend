@@ -24,9 +24,12 @@ class InventoryProduct(models.Model):
     dimensions = models.CharField(max_length=100, null=True, blank=True)
     cost = models.DecimalField(decimal_places=2, max_digits=20)
     sellingPrice = models.DecimalField(decimal_places=2, max_digits=20)
-    unitsAvailable = models.IntegerField()
+    unitsAvailable = models.IntegerField(null=False, blank=False, default=0)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.code + ", " + self.name + ", " + str(self.unitsAvailable)
 
 
 class CustomUserManager(BaseUserManager):
@@ -96,7 +99,7 @@ class User(AbstractUser):
     is_superuser = models.BooleanField(default=False)
 
     first_name = models.CharField(("first name"), max_length=150)
-    last_name = last_name = models.CharField(("last name"), max_length=150)
+    last_name = models.CharField(("last name"), max_length=150)
 
     REQUIRED_FIELDS = ['first_name', 'document', 'doc_type']
 
